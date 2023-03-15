@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import BurguerIcon from "../@shared/Icons/BurguerIcon";
 import IceCreemIcon from "../@shared/Icons/IceCreemIcon";
 import MenuIcon from "../@shared/Icons/MenuIcon";
@@ -6,36 +8,42 @@ import SodaIcon from "../@shared/Icons/SodaIcon";
 import { Container } from "./styles";
 
 const Sidebar: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleToggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <Container>
-      <button type="button">
+    <Container isMenuOpen={menuOpen}>
+      <button type="button" onClick={handleToggleMenu}>
         <MenuIcon isImg={true} alt="open and close menu" />
       </button>
       <nav>
         <ul>
           <li>
-            <a href="#!">
+            <NavLink to="/">
               <BurguerIcon isImg={false} />
               <span>Hambúrgueres</span>
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="#!">
+            <NavLink to="/pizzas">
               <PizzaIcon isImg={false} />
               <span>Pizzas</span>
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="#!">
+            <NavLink to="/drinks">
               <SodaIcon isImg={false} />
               <span>Bebidas</span>
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="#!">
+            <NavLink to="/icecreams">
               <IceCreemIcon isImg={false} />
               <span>Sorvetes</span>
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>
