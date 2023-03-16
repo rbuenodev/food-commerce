@@ -1,34 +1,33 @@
+import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Snacks from "../../components/Snacks";
 import SnackTitle from "../../components/SnackTitle";
+import { getBurgers } from "../../services/burgerService/service";
+
+interface IBurger {
+  id: number;
+  snack: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
 
 const Burgers: React.FC = () => {
-  const data = [
-    {
-      id: 1,
-      snack: "burguer",
-      name: "Mega",
-      description:
-        "O artesanal tamanho familia rechado com tres carnes suculentas, queijo e bacon",
-      price: 25.5,
-      image: "https://i.imgur.com/upjIUnG.jpg",
-    },
-    {
-      id: 2,
-      snack: "burguer",
-      name: "Extra bacon",
-      description:
-        "Criado para os amantes de bacon, possui em todas as suas camadas bacon e ainda queijo e carne",
-      price: 23.5,
-      image: "https://i.imgur.com/B4J04AJ.jpg",
-    },
-  ];
+  const [burgers, setBurgers] = useState<IBurger[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const burgerRequest = await getBurgers();
+      setBurgers(burgerRequest);
+    })();
+  }, []);
 
   return (
     <>
       <Head title="Hambúrgueres" description="Nossos melhores burgers!" />
       <SnackTitle>Hambúrgueres</SnackTitle>
-      <Snacks snacks={data} />
+      <Snacks snacks={burgers} />
     </>
   );
 };

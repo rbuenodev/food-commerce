@@ -1,8 +1,18 @@
+import { currencyFormat } from "../../helpers/currencyFormat";
 import PlusIcon from "../@shared/Icons/PlusIcon";
 import { Container } from "./styles";
 
 interface ISnacksProps {
-  snacks: any[];
+  snacks: ISnack[];
+}
+
+interface ISnack {
+  id: number;
+  snack: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
 }
 
 const Snacks: React.FC<ISnacksProps> = ({ snacks }) => {
@@ -14,7 +24,7 @@ const Snacks: React.FC<ISnacksProps> = ({ snacks }) => {
           <img src={snack.image} alt={snack.name} />
           <p>{snack.description}</p>
           <div>
-            <strong>{snack.price}</strong>
+            <strong>{currencyFormat(snack.price)}</strong>
             <button type="button">
               <PlusIcon />
             </button>
