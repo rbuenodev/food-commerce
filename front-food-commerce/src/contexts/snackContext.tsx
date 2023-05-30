@@ -3,15 +3,8 @@ import { getBurgers } from "../services/burgerService/service";
 import { getDrinks } from "../services/drinkService/service";
 import { getIceCreams } from "../services/iceCreamsService/service";
 import { getPizzas } from "../services/pizzaService/service";
+import { ISnackData } from "../interfaces/ISnackData";
 
-interface ISnackData {
-  id: number;
-  snack: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-}
 
 interface ISnackContextProps {
   burgers: ISnackData[];
