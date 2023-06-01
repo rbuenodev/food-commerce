@@ -16,14 +16,16 @@ interface IUpdateCartProps {
 
 interface IRemoveCartProps {
   id: number;
-  snack: string;
+  snack: ISnack;
 }
 
 interface ICartContextProps {
   cart: ISnack[];
   addSnackIntoCart: (snack: ISnackData) => void;
-  // updateCart: ({ id, snack, newQuantity }: IUpdateCartProps) => void;
-  // removeSnackFromCart: ({ id, snack }: IRemoveCartProps) => void;
+  removeSnackFromCart: (id: number, snack: ISnack) => void;
+  incrementSnackFromCart: (id: number, snack: ISnack) => void;
+  decrementSnackFromCart: (id: number, snack: ISnack) => void;
+  confirmOrder: () => void;
 }
 
 interface ICartProviderProps {
@@ -65,8 +67,33 @@ function CartProvider({ children }: ICartProviderProps) {
     return;
   }
 
+  function updateSnackQuantity(
+    id: number,
+    snack: ISnack,
+    newQuantity: number
+  ) {}
+
+  function removeSnackFromCart(id: number, snack: ISnack) {}
+  function incrementSnackFromCart(id: number, snack: ISnack) {
+    updateSnackQuantity(id, snack, snack.quantity + 1);
+  }
+  function decrementSnackFromCart(id: number, snack: ISnack) {
+    updateSnackQuantity(id, snack, snack.quantity - 1);
+  }
+
+  function confirmOrder() {}
+
   return (
-    <CartContext.Provider value={{ cart, addSnackIntoCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addSnackIntoCart,
+        removeSnackFromCart,
+        incrementSnackFromCart,
+        decrementSnackFromCart,
+        confirmOrder,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

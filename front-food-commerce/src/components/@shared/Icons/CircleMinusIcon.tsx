@@ -1,4 +1,4 @@
-import img, { ReactComponent as Icon } from "../../../assets/circle_minus.svg";
+import img, { ReactComponent as Icon } from "../../../assets/circle-minus.svg";
 
 interface IIconProps {
   isImg: boolean;
