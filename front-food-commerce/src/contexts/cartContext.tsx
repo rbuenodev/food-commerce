@@ -22,9 +22,9 @@ interface IRemoveCartProps {
 interface ICartContextProps {
   cart: ISnack[];
   addSnackIntoCart: (snack: ISnackData) => void;
-  removeSnackFromCart: (id: number, snack: ISnack) => void;
-  incrementSnackFromCart: (id: number, snack: ISnack) => void;
-  decrementSnackFromCart: (id: number, snack: ISnack) => void;
+  removeSnackFromCart: (snack: ISnack) => void;
+  incrementSnackFromCart: (snack: ISnack) => void;
+  decrementSnackFromCart: (snack: ISnack) => void;
   confirmOrder: () => void;
 }
 
@@ -67,18 +67,39 @@ function CartProvider({ children }: ICartProviderProps) {
     return;
   }
 
-  function updateSnackQuantity(
-    id: number,
-    snack: ISnack,
-    newQuantity: number
-  ) {}
+  function updateSnackQuantity(snack: ISnack, newQuantity: number) {
+    if (newQuantity <= 0) return;
 
-  function removeSnackFromCart(id: number, snack: ISnack) {}
-  function incrementSnackFromCart(id: number, snack: ISnack) {
-    updateSnackQuantity(id, snack, snack.quantity + 1);
+    const snackExistent = cart.find(
+      (item) => item.id === snack.id && item.snack === snack.snack
+    );
+
+    if (!snackExistent) return;
+
+    const newCart = cart.map((item) => {
+      if (item.id === snackExistent.id && item.snack === snackExistent.snack) {
+        return {
+          ...item,
+          quantity: newQuantity,
+          subtotal: item.price * newQuantity,
+        };
+      }
+      return item;
+    });
+    setCart(newCart);
   }
-  function decrementSnackFromCart(id: number, snack: ISnack) {
-    updateSnackQuantity(id, snack, snack.quantity - 1);
+
+  function removeSnackFromCart(snack: ISnack) {
+    const newCart = cart.filter(
+      (item) => !(item.id === snack.id && item.snack === snack.snack)
+    );
+    setCart(newCart);
+  }
+  function incrementSnackFromCart(snack: ISnack) {
+    updateSnackQuantity(snack, snack.quantity + 1);
+  }
+  function decrementSnackFromCart(snack: ISnack) {
+    updateSnackQuantity(snack, snack.quantity - 1);
   }
 
   function confirmOrder() {}

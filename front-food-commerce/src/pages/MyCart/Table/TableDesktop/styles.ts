@@ -83,6 +83,15 @@ export const Container = styled.main`
       &:nth-child(3),
       &:nth-child(4) {
         width: 11rem;
+        span {
+          display: block;
+          background: ${({ theme }) => theme.colors.white};
+          padding: 0.125rem 0.75rem;
+          border-radius: 4px;
+
+          font-weight: 500;
+          color: ${({ theme }) => theme.colors.black};
+        }
       }
 
       &:last-child {

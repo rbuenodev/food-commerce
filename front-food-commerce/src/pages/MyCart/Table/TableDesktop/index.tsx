@@ -1,12 +1,18 @@
 import CircleMinusIcon from "../../../../components/@shared/Icons/CircleMinusIcon";
 import CirclePlusIcon from "../../../../components/@shared/Icons/CirclePlusIcon";
-import PlusIcon from "../../../../components/@shared/Icons/PlusIcon";
+import RemoveIcon from "../../../../components/@shared/Icons/RemoveIcon";
+import ConfirmOrder from "../../../../components/ConfirmOrder";
 import { currencyFormat } from "../../../../helpers/currencyFormat";
 import { useCart } from "../../../../hooks/useCart";
 import { Container } from "./styles";
 
 const TableDesktop: React.FC = () => {
-  const { cart } = useCart();
+  const {
+    cart,
+    incrementSnackFromCart,
+    decrementSnackFromCart,
+    removeSnackFromCart,
+  } = useCart();
   return (
     <Container>
       <table>
@@ -31,11 +37,17 @@ const TableDesktop: React.FC = () => {
               </td>
               <td>
                 <div>
-                  <button type="button" onClick={() => {}}>
+                  <button
+                    type="button"
+                    onClick={() => decrementSnackFromCart(item)}
+                  >
                     <CircleMinusIcon isImg={true} alt="Remover quantidade" />
                   </button>
                   <span>{`${item.quantity}`.padStart(2, "0")}</span>
-                  <button type="button" onClick={() => {}}>
+                  <button
+                    type="button"
+                    onClick={() => incrementSnackFromCart(item)}
+                  >
                     <CirclePlusIcon isImg={true} alt="Adicionar quantidade" />
                   </button>
                 </div>
@@ -43,11 +55,16 @@ const TableDesktop: React.FC = () => {
               <td>
                 <h5>{currencyFormat(item.subtotal)}</h5>
               </td>
-              <td>Deletar</td>
+              <td>
+                <button type="button" onClick={() => removeSnackFromCart(item)}>
+                  <RemoveIcon />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <ConfirmOrder />
     </Container>
   );
 };
