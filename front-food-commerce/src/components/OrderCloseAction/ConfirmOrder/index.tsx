@@ -1,6 +1,6 @@
-import { currencyFormat } from "../../helpers/currencyFormat";
-import { useCart } from "../../hooks/useCart";
-import { Container } from "./styles";
+import { currencyFormat } from "../../../helpers/currencyFormat";
+import { useCart } from "../../../hooks/useCart";
+import { Button, Container } from "../styles";
 
 const ConfirmOrder: React.FC = () => {
   const { cart } = useCart();
@@ -9,7 +9,9 @@ const ConfirmOrder: React.FC = () => {
 
   return (
     <Container>
-      <button type="button">Finalizar Pedido</button>
+      <Button to="/payment" className="btnOrder">
+        Finalizar Pedido
+      </Button>
       <span>
         Total <strong>{currencyFormat(totalAmount)}</strong>
       </span>

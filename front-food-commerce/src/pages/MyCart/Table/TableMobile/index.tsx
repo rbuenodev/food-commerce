@@ -1,7 +1,7 @@
 import CircleMinusIcon from "../../../../components/@shared/Icons/CircleMinusIcon";
 import CirclePlusIcon from "../../../../components/@shared/Icons/CirclePlusIcon";
 import RemoveIcon from "../../../../components/@shared/Icons/RemoveIcon";
-import ConfirmOrder from "../../../../components/ConfirmOrder";
+import ConfirmOrder from "../../../../components/OrderCloseAction/ConfirmOrder";
 import { currencyFormat } from "../../../../helpers/currencyFormat";
 import { useCart } from "../../../../hooks/useCart";
 import { Container } from "./styles";
