@@ -3,6 +3,7 @@ import { ISnackData } from "../interfaces/ISnackData";
 import { toast } from "react-toastify";
 import { snackEmoji } from "../helpers/snackEmoji";
 import { useNavigate } from "react-router-dom";
+import { ICustomerData } from "../interfaces/ICustomerData";
 
 interface ISnack extends ISnackData {
   quantity: number;
@@ -16,7 +17,7 @@ interface ICartContextProps {
   incrementSnackFromCart: (snack: ISnack) => void;
   decrementSnackFromCart: (snack: ISnack) => void;
   confirmOrder: () => void;
-  payOrder: () => void;
+  payOrder: (customer: ICustomerData) => void;
 }
 
 interface ICartProviderProps {
@@ -98,7 +99,8 @@ function CartProvider({ children }: ICartProviderProps) {
     navigate("/payment");
   }
 
-  function payOrder() {
+  function payOrder(customer: ICustomerData) {
+    console.log("payorder", customer);
     navigate("/");
   }
 
