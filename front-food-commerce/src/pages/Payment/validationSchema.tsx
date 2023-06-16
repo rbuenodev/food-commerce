@@ -13,22 +13,21 @@ export const schema = yup
       .required("Nome e sobrenome é um campo obrigatório.")
       .min(10, "Nome e sobrenome muito curto.")
       .matches(/(\w.+\s).+/gi, "o Nome deve conter o sobrenome."),
-    email: yup.string().email().required("E-mail é um campo obrigatório."),
+    email: yup
+      .string()
+      .email("E-mail deve ser válido.")
+      .required("E-mail é um campo obrigatório."),
     mobile: yup
       .string()
       .required("Celular é um campo obrigatório.")
-      .transform((value) => {
-        value.replace(/[^\d]/g, "");
-      })
-      .test("validateMobile", "Celular inválido.", (value) => {
-        isValidPhone(value);
-      }),
+      .transform((value) => value.replace(/[^\d]/g, ""))
+      .test("validateMobile", "Celular inválido.", (value) =>
+        isValidPhone(value.replace(/[^\d]/g, ""))
+      ),
     document: yup
       .string()
       .required("O CPF/CNPJ é obrigatório.")
-      .transform((value) => {
-        value.replace(/[^\d]/g, "");
-      })
+      .transform((value) => value.replace(/[^\d]/g, ""))
       .test(
         "validateDocument",
         "O CPF/CNPJ é inválido.",
@@ -37,10 +36,12 @@ export const schema = yup
     zipCode: yup
       .string()
       .required("O CEP é obrigatório.")
-      .transform((value) => {
-        value.replace(/[^\d]/g, "");
-      }),
-    street: yup.string().required("O endereço é obrigatório."),
+      .min(8, "CEP muito curto.")
+      .transform((value) => value.replace(/[^\d]/g, "")),
+    street: yup
+      .string()
+      .required("O endereço é obrigatório.")
+      .min(5, "Endereço inválido."),
     number: yup.string(),
     complement: yup.string(),
     neighborhood: yup.string().required("O bairro é obrigatório."),
@@ -49,15 +50,11 @@ export const schema = yup
     creditCardNumber: yup
       .string()
       .required("O número do cartão é obrigatório.")
-      .transform((value) => {
-        value.replace(/[^\d]/g, "");
-      })
+      .transform((value) => value.replace(/[^\d]/g, ""))
       .test(
         "validateCreditCardNumber",
         "O número do cartão é inválido.",
-        (value) => {
-          isValidCreditCard.number(value).isValid;
-        }
+        (value) => isValidCreditCard.number(value).isValid
       ),
     creditCardHolderName: yup
       .string()

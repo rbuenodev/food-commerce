@@ -24,11 +24,29 @@ interface ICartProviderProps {
   children: ReactNode;
 }
 
+const localStorageKey = "@FoodCommerce:cart";
+
 const CartContext = createContext({} as ICartContextProps);
 
 function CartProvider({ children }: ICartProviderProps) {
-  const [cart, setCart] = useState<ISnack[]>([]);
+  const [cart, setCart] = useState<ISnack[]>(() => {
+    const cart = localStorage.getItem(localStorageKey);
+    if (cart) return JSON.parse(cart);
+
+    return [];
+  });
+
   const navigate = useNavigate();
+
+  function saveCart(items: ISnack[]) {
+    setCart(items);
+    localStorage.setItem(localStorageKey, JSON.stringify(items));
+  }
+
+  function clearCart() {
+    localStorage.removeItem(localStorageKey);
+    setCart([]);
+  }
 
   function addSnackIntoCart(snack: ISnackData): void {
     const snackExistentInCart = cart.find(
@@ -46,7 +64,7 @@ function CartProvider({ children }: ICartProviderProps) {
         return item;
       });
 
-      setCart(newCart);
+      saveCart(newCart);
       toast.success(
         `${snackEmoji(snack.snack)} ${snack.name} adicionado nos pedidos!`
       );
@@ -55,7 +73,7 @@ function CartProvider({ children }: ICartProviderProps) {
 
     const newSnack = { ...snack, quantity: 1, subtotal: snack.price };
     const newCart = [...cart, newSnack];
-    setCart(newCart);
+    saveCart(newCart);
     `${snackEmoji(snack.snack)} ${snack.name} adicionado nos pedidos!`;
     return;
   }
@@ -79,14 +97,14 @@ function CartProvider({ children }: ICartProviderProps) {
       }
       return item;
     });
-    setCart(newCart);
+    saveCart(newCart);
   }
 
   function removeSnackFromCart(snack: ISnack) {
     const newCart = cart.filter(
       (item) => !(item.id === snack.id && item.snack === snack.snack)
     );
-    setCart(newCart);
+    saveCart(newCart);
   }
   function incrementSnackFromCart(snack: ISnack) {
     updateSnackQuantity(snack, snack.quantity + 1);
@@ -101,6 +119,7 @@ function CartProvider({ children }: ICartProviderProps) {
 
   function payOrder(customer: ICustomerData) {
     console.log("payorder", customer);
+    clearCart();
     navigate("/");
   }
 

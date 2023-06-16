@@ -5,7 +5,7 @@ import OrderHeader from "../../components/OrderHeader";
 import { Container, Form, Inner } from "./styles";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TFieldValues, schema } from "./validationSchema";
-import { IMaskInput } from "react-imask";
+import { IMask, IMaskInput } from "react-imask";
 import { useCart } from "../../hooks/useCart";
 import { ICustomerData } from "../../interfaces/ICustomerData";
 
@@ -90,8 +90,8 @@ const Payment: React.FC = () => {
                 control={control}
                 render={({ field }) => (
                   <IMaskInput
-                    type="text"
                     id="document"
+                    type="text"
                     mask={[
                       { mask: "000.000.000-00", max: 11 },
                       { mask: "00.000.000/0000-00" },
@@ -114,9 +114,9 @@ const Payment: React.FC = () => {
               control={control}
               render={({ field }) => (
                 <IMaskInput
+                  id="zipCode"
                   style={{ width: "120px" }}
                   type="text"
-                  id="zipCode"
                   mask={"00000-000"}
                   {...field}
                 />
@@ -290,16 +290,14 @@ const Payment: React.FC = () => {
                         mask: "MM/YY",
                         blocks: {
                           MM: {
-                            mask: "00",
-                            // mask: IMask.MaskedRange,
-                            // from: 1,
-                            // to: 12,
+                            mask: IMask.MaskedRange,
+                            from: 1,
+                            to: 12,
                           },
                           YY: {
-                            mask: "00",
-                            // mask: IMask.MaskedRange,
-                            // from: new Date().getFullYear() - 2000,
-                            // to: 99,
+                            mask: IMask.MaskedRange,
+                            from: new Date().getFullYear() - 2000,
+                            to: 99,
                           },
                         },
                       },
